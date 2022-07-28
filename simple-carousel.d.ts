@@ -3,6 +3,7 @@ import './slide-button.js';
 export declare class SimpleCarousel extends LitElement {
     static styles: import("lit").CSSResult;
     slideIndex: number;
+    private containerHeight;
     private readonly slideElements;
     render(): import("lit-html").TemplateResult<1>;
     firstUpdated(): void;

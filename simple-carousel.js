@@ -5,20 +5,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, css } from 'lit';
-import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
+import { customElement, property, queryAssignedElements, state } from 'lit/decorators.js';
+import { styleMap } from "lit/directives/style-map.js";
 import { CARET_LEFT, CARET_RIGHT } from './constants.js';
 import './slide-button.js';
 let SimpleCarousel = class SimpleCarousel extends LitElement {
     constructor() {
         super(...arguments);
         this.slideIndex = 0;
+        this.containerHeight = 0;
     }
     render() {
+        const containerStyles = {
+            height: `${this.containerHeight}px`
+        };
         return html `
       <slide-button
       @click=${this.navigateToPrevSlide}
       >${CARET_LEFT}</slide-button>
-      <div id="container">
+      <div id="container"
+      style="${styleMap(containerStyles)}"
+      >
         <slot></slot>
       </div>
       <slide-button
@@ -27,6 +34,7 @@ let SimpleCarousel = class SimpleCarousel extends LitElement {
       `;
     }
     firstUpdated() {
+        this.containerHeight = getMaxHeight(this.slideElements);
         this.navigateSlide();
     }
     updated() {
@@ -87,6 +95,9 @@ __decorate([
     property({ type: Number })
 ], SimpleCarousel.prototype, "slideIndex", void 0);
 __decorate([
+    state()
+], SimpleCarousel.prototype, "containerHeight", void 0);
+__decorate([
     queryAssignedElements()
 ], SimpleCarousel.prototype, "slideElements", void 0);
 SimpleCarousel = __decorate([
@@ -98,5 +109,8 @@ function hideSlide(el) {
 }
 function showSlide(el) {
     el.classList.remove('slide-hidden');
+}
+function getMaxHeight(els) {
+    return Math.max(0, ...els.map(el => el.getBoundingClientRect().height));
 }
 //# sourceMappingURL=simple-carousel.js.map

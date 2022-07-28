@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, property, queryAssignedElements } from 'lit/decorators.js';
-
+import { customElement, property, queryAssignedElements, state } from 'lit/decorators.js';
+import {styleMap} from "lit/directives/style-map.js";
 import { CARET_LEFT, CARET_RIGHT } from './constants.js';
 
 import './slide-button.js';
@@ -41,15 +41,23 @@ export class SimpleCarousel extends LitElement {
       `;
 
     @property({type:Number}) slideIndex = 0;
+    @state() private containerHeight = 0;
 
     @queryAssignedElements() private readonly slideElements!: HTMLElement[];
 
  override render(){
+
+  const containerStyles = {
+    height: `${this.containerHeight}px`
+  };
+
     return html`
       <slide-button
       @click=${this.navigateToPrevSlide}
       >${CARET_LEFT}</slide-button>
-      <div id="container">
+      <div id="container"
+      style="${styleMap(containerStyles)}"
+      >
         <slot></slot>
       </div>
       <slide-button
@@ -59,6 +67,7 @@ export class SimpleCarousel extends LitElement {
   }
 
   override firstUpdated(){
+    this.containerHeight = getMaxHeight(this.slideElements);
     this.navigateSlide();
   }
 
@@ -98,6 +107,10 @@ function hideSlide(el: HTMLElement){
 
 function showSlide(el: HTMLElement){
     el.classList.remove('slide-hidden');
+}
+
+function getMaxHeight(els: HTMLElement[]):number {
+  return Math.max(0, ...els.map(el=>el.getBoundingClientRect().height));
 }
 
 declare global {
