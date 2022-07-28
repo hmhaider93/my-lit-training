@@ -1,0 +1,1 @@
+{"version":3,"file":"haiders-element.d.ts","sourceRoot":"","sources":["src/haiders-element.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAa,MAAM,KAAK,CAAC;AAG5C,qBACa,cAAe,SAAQ,UAAU;IAC5C,OAAgB,MAAM,0BAIpB;IACO,MAAM;CAIhB;AAED,OAAO,CAAC,MAAM,CAAC;IACb,UAAU,qBAAqB;QAC7B,iBAAiB,EAAG,cAAc,CAAE;KACrC;CACF"}
